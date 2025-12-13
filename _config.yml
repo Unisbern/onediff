@@ -1,0 +1,14 @@
+title: "Фитнес-приложение"
+description: "Мини-приложение для тренировок в Telegram"
+theme: jekyll-theme-minimal
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Отключаем обработку файлов Jekyll
+exclude:
+  - README.md
+  - LICENSE
+  - node_modules
+  - package.json
+  - package-lock.json
