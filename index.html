@@ -3,29 +3,254 @@
 <head>
     <title>Фитнес-приложение</title>
     <style>
-        body { font-family: Arial; padding: 20px; }
+        body { 
+            font-family: Arial; 
+            padding: 20px; 
+            background: #f5f5f5;
+            margin: 0;
+        }
+        
         .tab { 
-            padding: 15px; 
+            padding: 12px 24px; 
             margin: 5px; 
             background: blue; 
             color: white; 
             display: inline-block;
             border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background: #0056cc;
+            transform: translateY(-2px);
+        }
+        
+        .tab.active {
+            background: darkblue;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 139, 0.3);
+        }
+        
+        .content-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-height: 300px;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+        
+        ul {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin: 10px 0;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .start-button {
+            margin-top: 25px;
+            padding: 12px 30px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .start-button:hover {
+            background: #218838;
+        }
+        
+        .exercise-list {
+            margin-top: 20px;
+        }
+        
+        .exercise-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #17a2b8;
+            color: white;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
     <h1>🏋️ Фитнес-приложение</h1>
-    <p>Если вы это видите - сайт работает!</p>
     
-    <div>
-        <div class="tab">Тренировка</div>
-        <div class="tab">Планирование</div>
-        <div class="tab">Конструктор</div>
+    <!-- Навигация -->
+    <div style="margin: 20px 0;">
+        <div id="tab-training" class="tab active">Тренировка</div>
+        <div id="tab-planning" class="tab">Планирование</div>
+        <div id="tab-constructor" class="tab">Конструктор</div>
     </div>
     
-    <p style="margin-top: 30px;">
-        ✅ GitHub Pages работает корректно
-    </p>
+    <!-- Секция Тренировка -->
+    <div id="content-training" class="content-section active">
+        <h2>🏋️ Текущая тренировка</h2>
+        <p>Силовая тренировка - Грудь и Трицепс</p>
+        
+        <div class="exercise-list">
+            <div class="exercise-item">
+                <strong>1. Жим штанги лежа</strong> <span class="status-badge">3 подхода</span>
+                <div>12 повторений × 60кг</div>
+            </div>
+            <div class="exercise-item">
+                <strong>2. Разводка гантелей</strong> <span class="status-badge">3 подхода</span>
+                <div>15 повторений × 12кг</div>
+            </div>
+            <div class="exercise-item">
+                <strong>3. Отжимания на брусьях</strong> <span class="status-badge">3 подхода</span>
+                <div>10 повторений × вес тела</div>
+            </div>
+            <div class="exercise-item">
+                <strong>4. Французский жим</strong> <span class="status-badge">3 подхода</span>
+                <div>12 повторений × 20кг</div>
+            </div>
+        </div>
+        
+        <button class="start-button">▶ Начать тренировку</button>
+        
+        <div style="margin-top: 25px; color: #666; font-size: 14px;">
+            <p>⏱️ Длительность: ~60 минут</p>
+            <p>🔥 Примерный расход калорий: 450 ккал</p>
+        </div>
+    </div>
+    
+    <!-- Секция Планирование -->
+    <div id="content-planning" class="content-section">
+        <h2>📅 Планирование тренировок</h2>
+        <p>Расписание на неделю:</p>
+        <ul>
+            <li><strong>Понедельник:</strong> Грудь и Трицепс</li>
+            <li><strong>Вторник:</strong> Спина и Бицепс</li>
+            <li><strong>Среда:</strong> Ноги и Плечи</li>
+            <li><strong>Четверг:</strong> Отдых или Кардио</li>
+            <li><strong>Пятница:</strong> Верх тела (комплекс)</li>
+            <li><strong>Суббота:</strong> Низ тела (комплекс)</li>
+            <li><strong>Воскресенье:</strong> Отдых</li>
+        </ul>
+        
+        <div style="margin-top: 30px; background: #e9f7fe; padding: 15px; border-radius: 8px;">
+            <h3 style="color: #17a2b8; margin-top: 0;">Цели на месяц:</h3>
+            <ul>
+                <li>Увеличить рабочие веса на 10%</li>
+                <li>Провести 16 тренировок</li>
+                <li>Добавить 2 новых упражнения</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Секция Конструктор -->
+    <div id="content-constructor" class="content-section">
+        <h2>⚙️ Конструктор тренировок</h2>
+        <p>Создайте свою программу тренировок:</p>
+        
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+            <h3>Доступные упражнения:</h3>
+            <div style="margin: 15px 0;">
+                <button style="padding: 8px 15px; margin: 5px; background: #6c757d; color: white; border: none; border-radius: 5px;">Жим лежа</button>
+                <button style="padding: 8px 15px; margin: 5px; background: #6c757d; color: white; border: none; border-radius: 5px;">Приседания</button>
+                <button style="padding: 8px 15px; margin: 5px; background: #6c757d; color: white; border: none; border-radius: 5px;">Тяга штанги</button>
+                <button style="padding: 8px 15px; margin: 5px; background: #6c757d; color: white; border: none; border-radius: 5px;">Подтягивания</button>
+                <button style="padding: 8px 15px; margin: 5px; background: #6c757d; color: white; border: none; border-radius: 5px;">Выпады</button>
+            </div>
+        </div>
+        
+        <div style="margin-top: 25px;">
+            <h3>Ваша программа:</h3>
+            <div style="background: white; border: 2px dashed #007bff; padding: 20px; border-radius: 8px; min-height: 100px;">
+                <p style="color: #999; text-align: center;">Перетащите упражнения сюда</p>
+            </div>
+        </div>
+        
+        <button class="start-button" style="background: #6c757d;">💾 Сохранить программу</button>
+    </div>
+    
+    <script>
+        // Функция переключения вкладок
+        function switchTab(tabName) {
+            // Скрываем все секции
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Убираем активный класс у всех кнопок
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показываем выбранную секцию
+            const contentId = 'content-' + tabName;
+            const tabId = 'tab-' + tabName;
+            
+            document.getElementById(contentId).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+        
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            // Добавляем обработчики на кнопки
+            document.getElementById('tab-training').addEventListener('click', function() {
+                switchTab('training');
+            });
+            
+            document.getElementById('tab-planning').addEventListener('click', function() {
+                switchTab('planning');
+            });
+            
+            document.getElementById('tab-constructor').addEventListener('click', function() {
+                switchTab('constructor');
+            });
+            
+            // Обработка кнопки "Начать тренировку"
+            const startButton = document.querySelector('.start-button');
+            if (startButton) {
+                startButton.addEventListener('click', function() {
+                    alert('Тренировка началась! ⏱️');
+                });
+            }
+            
+            // Добавляем Telegram Web App API если доступно
+            if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                Telegram.WebApp.ready();
+                Telegram.WebApp.expand();
+            }
+        });
+    </script>
 </body>
 </html>
