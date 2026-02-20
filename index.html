@@ -185,10 +185,10 @@
             80% { transform: translateY(110px) rotate(-45deg) scale(0.9); opacity: 0.3; }
             100% { transform: translateY(140px) rotate(-45deg) scale(0.5); opacity: 0; }
         }
-        .cards-row {
+        .top-cards {
             display: flex;
             gap: 12px;
-            margin: 16px 0 10px;
+            margin: 16px 0 12px;
         }
         .card {
             flex: 1;
@@ -204,14 +204,6 @@
             box-shadow: 0 12px 22px rgba(0, 50, 80, 0.15);
             position: relative;
             overflow: hidden;
-        }
-        .card span {
-            display: block;
-            font-size: 13px;
-            font-weight: 400;
-            color: #235d83;
-            margin-top: 6px;
-            opacity: 0.9;
         }
         .card-water {
             position: absolute;
@@ -230,7 +222,7 @@
             z-index: 2;
         }
         .card-third {
-            flex: 1;
+            width: 100%;
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(5px);
             border-radius: 38px;
@@ -243,7 +235,7 @@
             box-shadow: 0 12px 22px rgba(0, 50, 80, 0.15);
             position: relative;
             overflow: hidden;
-            width: 100%;
+            margin-top: 0;
         }
         .card-third .card-water {
             height: 22px;
@@ -297,7 +289,7 @@
             <div class="cloud-cute">
                 <div class="puff-left"></div>
                 <div class="puff-right"></div>
-                <div class="cloud-water" id="cloudWater" style="height: 82%;"></div>
+                <div class="cloud-water" id="cloudWater" style="height: 85%;"></div>
                 <div class="income-badge">180 <small>₽</small></div>
             </div>
         </div>
@@ -306,7 +298,7 @@
             <div class="drop drop2"></div>
             <div class="drop drop3"></div>
         </div>
-        <div class="cards-row">
+        <div class="top-cards">
             <div class="card" id="card1">
                 <div class="card-water" id="cardWater1" style="height: 12%;"></div>
                 <div class="card-content">Озоны<span></span></div>
@@ -315,10 +307,10 @@
                 <div class="card-water" id="cardWater2" style="height: 18%;"></div>
                 <div class="card-content">Айфоны<span></span></div>
             </div>
-            <div class="card-third" id="card3">
-                <div class="card-water" style="height: 22px;"></div>
-                <div class="card-content">Личное поместье<span></span></div>
-            </div>
+        </div>
+        <div class="card-third" id="card3">
+            <div class="card-water" style="height: 22px;"></div>
+            <div class="card-content">Личное поместье<span></span></div>
         </div>
     </div>
     <div id="page2" class="page page-2">
@@ -360,14 +352,30 @@
     write2();
 
     const cloudWater = document.getElementById('cloudWater');
-    let cl = 82;
-    setInterval(() => {
-        if (cl > 28) cl = Math.max(28, cl - 7);
-        else cl = 78;
-        cloudWater.style.height = cl + '%';
-    }, 6000);
-    setTimeout(() => { cloudWater.style.height = '74%'; cl = 74; }, 2000);
-    setTimeout(() => { cloudWater.style.height = '65%'; cl = 65; }, 5000);
+    let cl = 85;
+    let emptyTimer = 0;
+    
+    function updateCloudWater() {
+        if (cl > 20) {
+            cl = Math.max(20, cl - 4);
+            cloudWater.style.height = cl + '%';
+            if (cl === 20) {
+                emptyTimer = 0;
+                const interval = setInterval(() => {
+                    emptyTimer += 1;
+                    if (emptyTimer >= 6) {
+                        cl = 80;
+                        cloudWater.style.height = cl + '%';
+                        clearInterval(interval);
+                    }
+                }, 1000);
+            }
+        }
+    }
+    
+    setInterval(updateCloudWater, 3000);
+    setTimeout(() => { cloudWater.style.height = '76%'; cl = 76; }, 2000);
+    setTimeout(() => { cloudWater.style.height = '68%'; cl = 68; }, 4500);
 
     const w1 = document.getElementById('cardWater1');
     const w2 = document.getElementById('cardWater2');
