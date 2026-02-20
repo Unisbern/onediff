@@ -44,7 +44,7 @@
             white-space: nowrap;
             box-shadow: 0 6px 12px rgba(0,30,60,0.1);
         }
-        #typeText {
+        #typeText, #typeText2 {
             display: inline-block;
         }
         .cursor {
@@ -55,6 +55,16 @@
             animation: blink 1s infinite;
         }
         @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+        
+        /* страницы */
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        
+        /* страница 1 - облако */
         .cloud-section {
             display: flex;
             justify-content: center;
@@ -68,7 +78,7 @@
             border-radius: 120px;
             box-shadow: 0 20px 30px -5px rgba(0, 90, 160, 0.25), inset 0 -3px 8px rgba(0,0,0,0.03);
             border: 2px solid white;
-            overflow: visible;
+            overflow: hidden;
         }
         .cloud-cute::before {
             content: '';
@@ -238,9 +248,121 @@
             margin-top: 0;
         }
         .card-third .card-water {
-            height: 22px;
+            height: 5px;
             opacity: 0.6;
             background: #2a80d9;
+        }
+        
+        /* страница 2 - бюджет */
+        .budget-header {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #043753;
+            border: 1px solid white;
+            margin: 20px 0;
+            box-shadow: 0 8px 16px rgba(0,40,70,0.1);
+        }
+        .budget-header span {
+            font-size: 18px;
+            font-weight: 400;
+            color: #256f9e;
+            margin-left: 8px;
+        }
+        .expenses-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 24px 0;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .expense-item {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 10px rgba(0,30,60,0.1);
+        }
+        .expense-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #043753;
+            margin-bottom: 10px;
+        }
+        .expense-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .expense-months {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1f5f8b;
+            min-width: 40px;
+        }
+        .expense-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, #3a99f0 0%, #9ac7ff var(--percent, 50%), #c0d6eb var(--percent, 50%));
+            border-radius: 10px;
+            outline: none;
+        }
+        .expense-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,60,120,0.4);
+            border: 2px solid #3a99f0;
+            cursor: pointer;
+        }
+        .expense-input {
+            width: 70px;
+            padding: 8px 0 8px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.7);
+            font-size: 16px;
+            font-weight: 500;
+            color: #043753;
+            outline: none;
+        }
+        .expense-input:focus {
+            border-color: #3a99f0;
+            background: white;
+        }
+        .expense-amount {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f4a73;
+            min-width: 70px;
+            text-align: right;
+        }
+        .add-button {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            border: 2px dashed #3a99f0;
+            border-radius: 60px;
+            padding: 18px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: 600;
+            color: #043753;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .add-button:hover {
+            background: rgba(58, 153, 240, 0.2);
         }
         .nav-dots {
             display: flex;
@@ -260,27 +382,11 @@
             background: #1f6db0;
             width: 60px;
         }
-        .page {
-            display: none;
-        }
-        .page.active {
-            display: block;
-        }
-        .page-2-placeholder {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(4px);
-            border-radius: 56px;
-            padding: 60px 20px;
-            text-align: center;
-            color: #115077;
-            font-size: 26px;
-            border: 1px solid white;
-            margin: 30px 0;
-        }
     </style>
 </head>
 <body>
 <div class="app">
+    <!-- СТРАНИЦА 1 -->
     <div id="page1" class="page active">
         <div class="typing-header">
             <span id="typeText"></span><span class="cursor"></span>
@@ -309,24 +415,34 @@
             </div>
         </div>
         <div class="card-third" id="card3">
-            <div class="card-water" style="height: 22px;"></div>
+            <div class="card-water" style="height: 5px;"></div>
             <div class="card-content">Личное поместье<span></span></div>
         </div>
     </div>
+
+    <!-- СТРАНИЦА 2 - БЮДЖЕТ -->
     <div id="page2" class="page page-2">
         <div class="typing-header">
             <span id="typeText2"></span><span class="cursor"></span>
         </div>
-        <div class="page-2-placeholder">
-            ☁️ вторая страница
+        <div class="budget-header" id="budgetDisplay">180000 <span>₽</span></div>
+        
+        <div class="expenses-list" id="expensesList">
+            <!-- будут добавляться элементы динамически -->
         </div>
+        
+        <button class="add-button" id="addExpenseBtn">+ добавить вещь</button>
     </div>
+
+    <!-- навигация -->
     <div class="nav-dots">
         <div class="nav-dot active-dot" data-page="1"></div>
         <div class="nav-dot" data-page="2"></div>
     </div>
 </div>
+
 <script>
+    // печатный текст 1
     const line1 = "Привет, это облако";
     const out1 = document.getElementById('typeText');
     let p1 = 0;
@@ -339,7 +455,8 @@
     }
     write1();
 
-    const line2 = "Другая страница";
+    // печатный текст 2
+    const line2 = "Бюджет планировщик";
     const out2 = document.getElementById('typeText2');
     let p2 = 0;
     function write2() {
@@ -351,32 +468,37 @@
     }
     write2();
 
+    // облако: вода уходит быстрее и дольше стоит пустое
     const cloudWater = document.getElementById('cloudWater');
     let cl = 85;
     let emptyTimer = 0;
+    let emptyInterval = null;
     
     function updateCloudWater() {
         if (cl > 20) {
-            cl = Math.max(20, cl - 4);
+            cl = Math.max(20, cl - 7);
             cloudWater.style.height = cl + '%';
             if (cl === 20) {
                 emptyTimer = 0;
-                const interval = setInterval(() => {
+                if (emptyInterval) clearInterval(emptyInterval);
+                emptyInterval = setInterval(() => {
                     emptyTimer += 1;
-                    if (emptyTimer >= 6) {
-                        cl = 80;
+                    if (emptyTimer >= 8) {
+                        cl = 85;
                         cloudWater.style.height = cl + '%';
-                        clearInterval(interval);
+                        clearInterval(emptyInterval);
+                        emptyInterval = null;
                     }
                 }, 1000);
             }
         }
     }
     
-    setInterval(updateCloudWater, 3000);
+    setInterval(updateCloudWater, 2800);
     setTimeout(() => { cloudWater.style.height = '76%'; cl = 76; }, 2000);
     setTimeout(() => { cloudWater.style.height = '68%'; cl = 68; }, 4500);
 
+    // карточки Озоны и Айфоны
     const w1 = document.getElementById('cardWater1');
     const w2 = document.getElementById('cardWater2');
     let f1 = 12, f2 = 18;
@@ -399,9 +521,119 @@
         }
     }, 1400);
 
+    // ========== СТРАНИЦА 2: ЛОГИКА БЮДЖЕТА ==========
+    let budget = 180000;
+    const budgetDisplay = document.getElementById('budgetDisplay');
+    const expensesList = document.getElementById('expensesList');
+    
+    // базовые элементы
+    let expenses = [
+        { id: 'food', name: 'еда', months: 1, amount: 0 },
+        { id: 'housing', name: 'жильё', months: 1, amount: 0 }
+    ];
+    
+    function updateBudgetDisplay() {
+        budgetDisplay.innerHTML = Math.round(budget) + ' <span>₽</span>';
+    }
+    
+    function recalcBudget() {
+        let totalSpent = expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+        budget = 180000 - totalSpent;
+        if (budget < 0) budget = 0;
+        updateBudgetDisplay();
+    }
+    
+    function renderExpenses() {
+        expensesList.innerHTML = '';
+        expenses.forEach((exp, index) => {
+            const item = document.createElement('div');
+            item.className = 'expense-item';
+            item.dataset.id = exp.id || 'custom-' + index;
+            
+            const title = document.createElement('div');
+            title.className = 'expense-title';
+            title.textContent = exp.name + ' — ' + exp.months + ' мес';
+            
+            const controls = document.createElement('div');
+            controls.className = 'expense-controls';
+            
+            const monthsSpan = document.createElement('span');
+            monthsSpan.className = 'expense-months';
+            monthsSpan.textContent = exp.months + 'м';
+            
+            const slider = document.createElement('input');
+            slider.type = 'range';
+            slider.className = 'expense-slider';
+            slider.min = 1;
+            slider.max = 12;
+            slider.value = exp.months;
+            slider.style.setProperty('--percent', ((exp.months - 1) / 11 * 100) + '%');
+            
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.className = 'expense-input';
+            input.min = 0;
+            input.max = 1000000;
+            input.value = exp.amount;
+            input.placeholder = 'сумма';
+            
+            const amountSpan = document.createElement('span');
+            amountSpan.className = 'expense-amount';
+            amountSpan.textContent = '− ' + (exp.amount / exp.months).toFixed(0) + '₽/мес';
+            
+            slider.addEventListener('input', (e) => {
+                const val = parseInt(e.target.value);
+                exp.months = val;
+                monthsSpan.textContent = val + 'м';
+                title.textContent = exp.name + ' — ' + val + ' мес';
+                slider.style.setProperty('--percent', ((val - 1) / 11 * 100) + '%');
+                amountSpan.textContent = '− ' + (exp.amount / val).toFixed(0) + '₽/мес';
+                recalcBudget();
+            });
+            
+            input.addEventListener('input', (e) => {
+                let val = parseInt(e.target.value) || 0;
+                if (val < 0) val = 0;
+                exp.amount = val;
+                amountSpan.textContent = '− ' + (val / exp.months).toFixed(0) + '₽/мес';
+                recalcBudget();
+            });
+            
+            controls.appendChild(monthsSpan);
+            controls.appendChild(slider);
+            controls.appendChild(input);
+            controls.appendChild(amountSpan);
+            
+            item.appendChild(title);
+            item.appendChild(controls);
+            expensesList.appendChild(item);
+        });
+        recalcBudget();
+    }
+    
+    // добавление новой вещи
+    document.getElementById('addExpenseBtn').addEventListener('click', () => {
+        const newName = prompt('Введите название вещи (например, "кофе")');
+        if (!newName || newName.trim() === '') return;
+        
+        const newExpense = {
+            id: 'custom-' + Date.now(),
+            name: newName.trim(),
+            months: 1,
+            amount: 0
+        };
+        expenses.push(newExpense);
+        renderExpenses();
+    });
+    
+    // первоначальный рендер
+    renderExpenses();
+
+    // переключение страниц
     const page1 = document.getElementById('page1');
     const page2 = document.getElementById('page2');
     const dots = document.querySelectorAll('.nav-dot');
+    
     function goToPage(n) {
         if (n === 1) {
             page1.classList.add('active');
@@ -415,6 +647,7 @@
             dots[0].classList.remove('active-dot');
         }
     }
+    
     dots.forEach((d, idx) => d.addEventListener('click', () => goToPage(idx === 0 ? 1 : 2)));
 </script>
 </body>
