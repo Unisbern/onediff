@@ -3,269 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Облако и капли — мини‑апп</title>
+    <title>Cloud mini app</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
         }
-
         body {
-            background: linear-gradient(165deg, #c7e2fd 0%, #dbeafe 100%);
+            background: linear-gradient(165deg, #b8dfff 0%, #d3e9ff 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 16px;
         }
-
         .app {
             width: 100%;
             max-width: 400px;
             background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(15px);
-            border-radius: 48px;
-            padding: 24px 16px 32px;
-            box-shadow: 0 25px 40px -10px rgba(0, 50, 100, 0.3);
-            border: 1px solid rgba(255,255,255,0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 56px;
+            padding: 32px 20px 36px;
+            box-shadow: 0 30px 50px -10px rgba(0, 60, 120, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.7);
         }
-
-        /* машинка */
         .typing-header {
-            font-size: 26px;
-            font-weight: 600;
-            color: #06314b;
-            background: rgba(255,255,255,0.4);
+            font-size: 32px;
+            font-weight: 650;
+            color: #043753;
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(4px);
-            padding: 12px 20px;
-            border-radius: 60px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255,255,255,0.8);
+            padding: 16px 24px;
+            border-radius: 80px;
+            margin-bottom: 42px;
+            border: 1px solid rgba(255,255,255,0.9);
             display: flex;
             align-items: center;
             white-space: nowrap;
+            box-shadow: 0 6px 12px rgba(0,30,60,0.1);
         }
         #typeText {
             display: inline-block;
         }
         .cursor {
-            width: 3px;
-            height: 30px;
-            background: #0a3853;
-            margin-left: 6px;
+            width: 4px;
+            height: 34px;
+            background: #043753;
+            margin-left: 8px;
             animation: blink 1s infinite;
         }
         @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
-
-        /* облачный контейнер — теперь ничто не обрезает облако */
         .cloud-section {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 5;
-        }
-
-        /* САМО ОБЛАКО — пушистое, без обрезания */
-        .cloud-big {
-            position: relative;
-            width: 260px;
-            height: 110px;
-            background: #bde1fe;
-            border-radius: 100px;
-            box-shadow: 0 12px 20px rgba(0,60,130,0.25), inset 0 -4px 8px rgba(0,0,0,0.05);
-            border: 2px solid white;
+            justify-content: center;
             margin-bottom: 10px;
-            /* УБИРАЕМ overflow hidden — теперь облако видно полностью */
+        }
+        .cloud-cute {
+            position: relative;
+            width: 280px;
+            height: 120px;
+            background: linear-gradient(145deg, #f9fcff, #e2f0ff);
+            border-radius: 120px;
+            box-shadow: 0 20px 30px -5px rgba(0, 90, 160, 0.25), inset 0 -3px 8px rgba(0,0,0,0.03);
+            border: 2px solid white;
             overflow: visible;
         }
-
-        /* пушистые шапки облака (псевдоэлементы) */
-        .cloud-big::before,
-        .cloud-big::after {
+        .cloud-cute::before {
             content: '';
             position: absolute;
-            background: #bde1fe;
+            width: 90px;
+            height: 90px;
+            background: inherit;
             border-radius: 50%;
+            top: -40px;
+            left: 25px;
             border: 2px solid white;
+            box-shadow: 0 8px 12px rgba(0,0,0,0.05);
             z-index: 2;
         }
-        .cloud-big::before {
-            width: 80px;
-            height: 80px;
-            top: -35px;
-            left: 30px;
-            box-shadow: -2px 4px 10px rgba(0,0,0,0.1);
+        .cloud-cute::after {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: inherit;
+            border-radius: 50%;
+            top: -55px;
+            right: 20px;
+            border: 2px solid white;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 2;
         }
-        .cloud-big::after {
-            width: 110px;
-            height: 110px;
-            top: -50px;
-            right: 25px;
-            box-shadow: 4px 8px 14px rgba(0,40,80,0.15);
+        .cloud-cute .puff-left {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: inherit;
+            border-radius: 50%;
+            top: -20px;
+            left: -10px;
+            border: 2px solid white;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.05);
+            z-index: 2;
         }
-
-        /* вода внутри облака (синяя) */
+        .cloud-cute .puff-right {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: inherit;
+            border-radius: 50%;
+            bottom: -20px;
+            right: 10px;
+            border: 2px solid white;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.07);
+            z-index: 2;
+        }
         .cloud-water {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: #1e81d9;
-            border-radius: 0 0 100px 100px;
+            background: #3a99f0;
+            border-radius: 0 0 120px 120px;
             transition: height 5s cubic-bezier(0.5, 0, 0.3, 1);
-            height: 80%; /* начальный уровень */
-            box-shadow: inset 0 6px 10px #0f5b9e;
+            height: 80%;
+            box-shadow: inset 0 6px 10px #1b5e9e;
             z-index: 1;
+            opacity: 0.85;
         }
-
-        /* бейдж с доходом ПОВЕРХ облака */
         .income-badge {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(8px);
             padding: 12px 28px;
             border-radius: 60px;
-            font-size: 30px;
-            font-weight: 700;
-            color: #0c4c77;
+            font-size: 32px;
+            font-weight: 750;
+            color: #0f4a73;
             z-index: 20;
             border: 1px solid white;
             white-space: nowrap;
-            box-shadow: 0 8px 18px rgba(0, 20, 50, 0.2);
+            box-shadow: 0 8px 22px rgba(0, 40, 80, 0.3);
         }
         .income-badge small {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 400;
-            color: #2b628b;
-            margin-left: 4px;
+            color: #256f9e;
+            margin-left: 5px;
         }
-
-        /* КОНТЕЙНЕР ДЛЯ КАПЕЛЬ (летят вниз) */
         .drops-rain {
             position: relative;
             width: 100%;
-            height: 110px;  /* мостик от облака до карточек */
+            height: 100px;
             pointer-events: none;
-            margin-top: -20px; /* чуть ближе к облаку */
-            z-index: 10;
+            margin-top: 5px;
+            z-index: 15;
         }
-
         .drop {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #1e81d9;
+            width: 12px;
+            height: 12px;
+            background: #3a99f0;
             border-radius: 50% 50% 50% 0;
             transform: rotate(-45deg);
             opacity: 0.8;
-            box-shadow: 0 4px 8px #3d93e6;
+            box-shadow: 0 4px 10px #479ef0;
             left: var(--x);
-            animation: rainfall 1.8s infinite ease-in;
+            animation: rainfall 1.9s infinite ease-in;
             top: -10px;
         }
-
-        /* три капли с разной задержкой и позициями */
-        .drop1 { --x: 22%; left: 22%; animation-delay: 0s; }
-        .drop2 { --x: 48%; left: 48%; width: 12px; height: 12px; animation-delay: 0.5s; }
-        .drop3 { --x: 74%; left: 74%; width: 9px; height: 9px; animation-delay: 1.1s; }
-
+        .drop1 { --x: 20%; left: 20%; width: 14px; height: 14px; animation-delay: 0.1s; }
+        .drop2 { --x: 48%; left: 48%; width: 11px; height: 11px; animation-delay: 0.9s; }
+        .drop3 { --x: 76%; left: 76%; width: 13px; height: 13px; animation-delay: 1.5s; }
         @keyframes rainfall {
             0% { transform: translateY(0) rotate(-45deg) scale(1); opacity: 0.9; }
             80% { transform: translateY(110px) rotate(-45deg) scale(0.9); opacity: 0.3; }
-            100% { transform: translateY(130px) rotate(-45deg) scale(0.6); opacity: 0; }
+            100% { transform: translateY(140px) rotate(-45deg) scale(0.5); opacity: 0; }
         }
-
-        /* КАРТОЧКИ (три штуки) в которые падают капли */
-        .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 8px;
-            justify-content: center;
-        }
-
-        /* первые две карточки (слово1, слово2) — на одной строке */
-        .card-top-row {
+        .cards-row {
             display: flex;
             gap: 12px;
-            width: 100%;
+            margin: 16px 0 10px;
         }
-
         .card {
             flex: 1;
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(4px);
-            border-radius: 32px;
-            padding: 24px 0 16px;
+            backdrop-filter: blur(5px);
+            border-radius: 38px;
+            padding: 24px 0 18px;
             text-align: center;
-            font-size: 22px;
-            font-weight: 600;
-            color: #124c6e;
+            font-size: 20px;
+            font-weight: 620;
+            color: #083e5c;
             border: 1px solid rgba(255,255,255,0.9);
-            box-shadow: 0 10px 18px rgba(0, 40, 70, 0.15);
+            box-shadow: 0 12px 22px rgba(0, 50, 80, 0.15);
             position: relative;
-            overflow: hidden;  /* скрываем переполнение воды */
+            overflow: hidden;
         }
-
         .card span {
             display: block;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 400;
-            color: #2d5f80;
-            margin-top: 8px;
+            color: #235d83;
+            margin-top: 6px;
+            opacity: 0.9;
         }
-
-        /* вода внутри карточек (синяя) */
         .card-water {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: #1e81d9;
+            background: #3a99f0;
             transition: height 1.2s ease-out;
             z-index: 0;
-            border-radius: 0 0 32px 32px;
-            opacity: 0.6;
-            box-shadow: inset 0 4px 6px #0c5290;
+            border-radius: 0 0 38px 38px;
+            opacity: 0.55;
+            box-shadow: inset 0 4px 8px #0f5390;
         }
-
-        /* текст и иконка поверх воды */
         .card-content {
             position: relative;
             z-index: 2;
         }
-
-        /* карточка №3 отдельно — всегда чуть воды внизу */
-        .card-special {
-            width: 100%;
+        .card-third {
+            flex: 1;
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(5px);
             border-radius: 38px;
-            padding: 24px 0 20px;
+            padding: 24px 0 18px;
             text-align: center;
-            font-size: 24px;
-            font-weight: 600;
-            color: #0a3b58;
+            font-size: 20px;
+            font-weight: 620;
+            color: #083e5c;
             border: 1px solid white;
-            margin-top: 8px;
+            box-shadow: 0 12px 22px rgba(0, 50, 80, 0.15);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 18px rgba(0,40,70,0.15);
+            width: 100%;
         }
-        .card-special .card-water {
-            height: 28px;  /* всегда на дне */
-            opacity: 0.7;
-            background: #1470b8;
+        .card-third .card-water {
+            height: 22px;
+            opacity: 0.6;
+            background: #2a80d9;
         }
-
-        /* навигационные точки (страницы) */
         .nav-dots {
             display: flex;
             justify-content: center;
@@ -275,17 +259,15 @@
         .nav-dot {
             width: 40px;
             height: 6px;
-            background: rgba(25, 80, 130, 0.3);
+            background: rgba(25, 75, 130, 0.3);
             border-radius: 20px;
             cursor: pointer;
             transition: 0.2s;
         }
         .nav-dot.active-dot {
-            background: #1a69a8;
+            background: #1f6db0;
             width: 60px;
         }
-
-        /* страница 2 заглушка */
         .page {
             display: none;
         }
@@ -295,11 +277,11 @@
         .page-2-placeholder {
             background: rgba(255,255,255,0.5);
             backdrop-filter: blur(4px);
-            border-radius: 48px;
-            padding: 50px 20px;
+            border-radius: 56px;
+            padding: 60px 20px;
             text-align: center;
-            color: #0d4b72;
-            font-size: 24px;
+            color: #115077;
+            font-size: 26px;
             border: 1px solid white;
             margin: 30px 0;
         }
@@ -307,181 +289,125 @@
 </head>
 <body>
 <div class="app">
-    <!-- страница 1 -->
     <div id="page1" class="page active">
-        <!-- печатный заголовок -->
         <div class="typing-header">
             <span id="typeText"></span><span class="cursor"></span>
         </div>
-
-        <!-- облачная зона (полностью видимая) -->
         <div class="cloud-section">
-            <div class="cloud-big">
-                <div class="cloud-water" id="cloudWater" style="height: 85%;"></div>
+            <div class="cloud-cute">
+                <div class="puff-left"></div>
+                <div class="puff-right"></div>
+                <div class="cloud-water" id="cloudWater" style="height: 82%;"></div>
                 <div class="income-badge">180 <small>₽</small></div>
             </div>
         </div>
-
-        <!-- капли, летящие вниз (позиции над карточками) -->
         <div class="drops-rain">
             <div class="drop drop1"></div>
             <div class="drop drop2"></div>
             <div class="drop drop3"></div>
         </div>
-
-        <!-- карточки 1 и 2 (верхний ряд) -->
-        <div class="cards-container">
-            <div class="card-top-row">
-                <!-- карточка слово1 -->
-                <div class="card" id="card1">
-                    <div class="card-water" id="cardWater1" style="height: 10%;"></div>
-                    <div class="card-content">слово1 <span>⚡</span></div>
-                </div>
-                <!-- карточка слово2 -->
-                <div class="card" id="card2">
-                    <div class="card-water" id="cardWater2" style="height: 15%;"></div>
-                    <div class="card-content">слово2 <span>💧</span></div>
-                </div>
+        <div class="cards-row">
+            <div class="card" id="card1">
+                <div class="card-water" id="cardWater1" style="height: 12%;"></div>
+                <div class="card-content">Озоны<span></span></div>
             </div>
-
-            <!-- карточка слово3 (отдельно, вода всегда на дне) -->
-            <div class="card-special" id="card3">
-                <div class="card-water" style="height: 28px;"></div>
-                <div class="card-content">слово3 <span>🌊 всегда на дне</span></div>
+            <div class="card" id="card2">
+                <div class="card-water" id="cardWater2" style="height: 18%;"></div>
+                <div class="card-content">Айфоны<span></span></div>
+            </div>
+            <div class="card-third" id="card3">
+                <div class="card-water" style="height: 22px;"></div>
+                <div class="card-content">Личное поместье<span></span></div>
             </div>
         </div>
     </div>
-
-    <!-- страница 2 (для навигации) -->
     <div id="page2" class="page page-2">
         <div class="typing-header">
             <span id="typeText2"></span><span class="cursor"></span>
         </div>
         <div class="page-2-placeholder">
-            🌤 вторая страница<br> (тут может быть график)
-        </div>
-        <div class="nav-dots" style="margin-top: 40px;"> <!-- чтобы не сбить основные точки, но они снизу общие -->
+            ☁️ вторая страница
         </div>
     </div>
-
-    <!-- навигация страниц -->
     <div class="nav-dots">
         <div class="nav-dot active-dot" data-page="1"></div>
         <div class="nav-dot" data-page="2"></div>
     </div>
 </div>
-
 <script>
-    (function() {
-        // 1. ПЕЧАТНЫЙ ТЕКСТ (первая страница)
-        const text1 = "Привет, облако";
-        const typeSpan = document.getElementById('typeText');
-        let i1 = 0;
-        function print1() {
-            if (i1 < text1.length) {
-                typeSpan.textContent += text1.charAt(i1);
-                i1++;
-                setTimeout(print1, 120);
-            }
+    const line1 = "Привет, это облако";
+    const out1 = document.getElementById('typeText');
+    let p1 = 0;
+    function write1() {
+        if (p1 < line1.length) {
+            out1.textContent += line1.charAt(p1);
+            p1++;
+            setTimeout(write1, 120);
         }
-        print1();
+    }
+    write1();
 
-        // 2. ПЕЧАТНЫЙ ТЕКСТ (вторая страница)
-        const text2 = "Страница два";
-        const typeSpan2 = document.getElementById('typeText2');
-        let i2 = 0;
-        function print2() {
-            if (i2 < text2.length) {
-                typeSpan2.textContent += text2.charAt(i2);
-                i2++;
-                setTimeout(print2, 120);
-            }
+    const line2 = "Другая страница";
+    const out2 = document.getElementById('typeText2');
+    let p2 = 0;
+    function write2() {
+        if (p2 < line2.length) {
+            out2.textContent += line2.charAt(p2);
+            p2++;
+            setTimeout(write2, 120);
         }
-        print2();
+    }
+    write2();
 
-        // 3. ОБЛАКО: уровень воды постепенно понижается (как и просила)
-        const cloudWater = document.getElementById('cloudWater');
-        let waterLevel = 85; // процентов
-        function lowerCloudWater() {
-            if (waterLevel > 25) {
-                waterLevel = Math.max(25, waterLevel - 7);
-            } else {
-                waterLevel = 80; // возвращаем для цикличности
-            }
-            cloudWater.style.height = waterLevel + '%';
+    const cloudWater = document.getElementById('cloudWater');
+    let cl = 82;
+    setInterval(() => {
+        if (cl > 28) cl = Math.max(28, cl - 7);
+        else cl = 78;
+        cloudWater.style.height = cl + '%';
+    }, 6000);
+    setTimeout(() => { cloudWater.style.height = '74%'; cl = 74; }, 2000);
+    setTimeout(() => { cloudWater.style.height = '65%'; cl = 65; }, 5000);
+
+    const w1 = document.getElementById('cardWater1');
+    const w2 = document.getElementById('cardWater2');
+    let f1 = 12, f2 = 18;
+    setInterval(() => {
+        if (f1 < 70) {
+            f1 += Math.floor(Math.random() * 5) + 2;
+            if (f1 > 70) f1 = 70;
+            w1.style.height = f1 + '%';
         }
-        setInterval(lowerCloudWater, 6000);
-        // пара быстрых изменений для живости
-        setTimeout(() => { cloudWater.style.height = '76%'; waterLevel = 76; }, 2000);
-        setTimeout(() => { cloudWater.style.height = '68%'; waterLevel = 68; }, 4500);
-
-        // 4. НАПОЛНЕНИЕ КАРТОЧЕК 1 и 2 от капель (имитация)
-        const cardWater1 = document.getElementById('cardWater1');
-        const cardWater2 = document.getElementById('cardWater2');
-        let fill1 = 10, fill2 = 15;
-
-        // капли "падают" и увеличивают уровень (эмуляция)
-        setInterval(() => {
-            // случайное прибавление для первой карточки
-            if (fill1 < 70) {
-                fill1 += Math.floor(Math.random() * 6) + 2;  // +2..7
-                if (fill1 > 70) fill1 = 70;
-                cardWater1.style.height = fill1 + '%';
-            }
-            // для второй карточки
-            if (fill2 < 68) {
-                fill2 += Math.floor(Math.random() * 5) + 3; // +3..7
-                if (fill2 > 68) fill2 = 68;
-                cardWater2.style.height = fill2 + '%';
-            }
-
-            // изредка немного убывает (испарение/сток) — чтобы было динамично
-            if (Math.random() > 0.7) {
-                fill1 = Math.max(8, fill1 - 2);
-                fill2 = Math.max(10, fill2 - 3);
-                cardWater1.style.height = fill1 + '%';
-                cardWater2.style.height = fill2 + '%';
-            }
-        }, 1300);
-
-        // КАРТОЧКА 3 — вода всегда на дне (уже задано в style, трогать не надо)
-
-        // 5. ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ (как в прошлый раз, но с исправлением)
-        const page1 = document.getElementById('page1');
-        const page2 = document.getElementById('page2');
-        const dots = document.querySelectorAll('.nav-dot');
-
-        function setActive(pageNum) {
-            if (pageNum === 1) {
-                page1.classList.add('active');
-                page2.classList.remove('active');
-                dots[0].classList.add('active-dot');
-                dots[1].classList.remove('active-dot');
-            } else {
-                page2.classList.add('active');
-                page1.classList.remove('active');
-                dots[1].classList.add('active-dot');
-                dots[0].classList.remove('active-dot');
-            }
+        if (f2 < 68) {
+            f2 += Math.floor(Math.random() * 6) + 2;
+            if (f2 > 68) f2 = 68;
+            w2.style.height = f2 + '%';
         }
+        if (Math.random() > 0.65) {
+            f1 = Math.max(8, f1 - 2);
+            f2 = Math.max(10, f2 - 2);
+            w1.style.height = f1 + '%';
+            w2.style.height = f2 + '%';
+        }
+    }, 1400);
 
-        dots.forEach((dot, idx) => {
-            dot.addEventListener('click', () => {
-                setActive(idx === 0 ? 1 : 2);
-            });
-        });
-
-        // 6. Небольшая фишка: капли визуально падают в карточки (уже за счёт анимации)
-        // всё ок
-    })();
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const dots = document.querySelectorAll('.nav-dot');
+    function goToPage(n) {
+        if (n === 1) {
+            page1.classList.add('active');
+            page2.classList.remove('active');
+            dots[0].classList.add('active-dot');
+            dots[1].classList.remove('active-dot');
+        } else {
+            page2.classList.add('active');
+            page1.classList.remove('active');
+            dots[1].classList.add('active-dot');
+            dots[0].classList.remove('active-dot');
+        }
+    }
+    dots.forEach((d, idx) => d.addEventListener('click', () => goToPage(idx === 0 ? 1 : 2)));
 </script>
-
-<!-- 
-    Что исправлено:
-    - Облако теперь не обрезается (убрал overflow hidden у родителя, исправил псевдоэлементы)
-    - Капли летят прямо в зону карточек (их траектория видна)
-    - Слово1 и слово2 наполняются синей водой (динамически), слово3 — вода всегда на дне
-    - Дизайн стал воздушнее, облако пушистое
--->
 </body>
 </html>
