@@ -1,0 +1,14 @@
+title: "Приложение"
+description: "Мини-приложение для планирования в Telegram"
+theme: jekyll-theme-minimal
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Отключаем обработку файлов Jekyll
+exclude:
+  - README.md
+  - LICENSE
+  - node_modules
+  - package.json
+  - package-lock.json
